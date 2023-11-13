@@ -4,7 +4,52 @@
     box-sizing: border-box;
 }
 
+body {
+    background-color: darkblue;
+}
+
 .calculator {
-    margin: 250px auto;
+    background-color: #fff;
+    position: absolute;
+    right: 45%;
+    top: 30%;
     border: 2px solid red;
+    width: fit-content;
+    padding: 10px;
+}
+
+.calculator-screen {
+    border: 2px solid yellow;
+    height: auto;
+    margin-bottom: 5px;
+    display: flex;
+    justify-content: end;
+    padding: 2px;
+    max-width: 215px;
+}
+
+.calculator-inputs {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: 5px;
+
+}
+
+button {
+    cursor: pointer;
+    width: 50px;
+    height: 50px;
+}
+
+p {
+    font-size: 32px;
+}
+
+.calculator-end {
+    margin-top: 5px;
+    gap: 5px;
+}
+
+.zero {
+    width: 107px;
 }
