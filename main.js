@@ -2,37 +2,50 @@ const BUTTON = document.querySelectorAll("button")
 const SCREEN = document.querySelector("p")
 
 let election;
-let numbers = [];
-let number = []
-let show
+let screenInfo = []
 
 function printNumbers(digit) {
-    show = ""
+
+    let show = ""
     if (Number(digit) || digit === "0") {
-        number.push(digit)
+        screenInfo.push(digit)
     }
         
-    for (const key in number) {
-        show += number[key]
+    for (const key in screenInfo) {
+        show += screenInfo[key]
     }
+
     SCREEN.innerHTML = show
 }
 function addSimbol(simb) {
-    let showSimbol = show
-    showSimbol += simb
-    SCREEN.innerHTML = showSimbol
+    if(Number(screenInfo[screenInfo.length - 1])) {
+        let showSimbol = ""
+
+        screenInfo.push(simb)
+
+        for (const key in screenInfo) {
+            showSimbol += screenInfo[key]
+        }
+    
+        SCREEN.innerHTML = showSimbol
+    }else if(simb != screenInfo[screenInfo.length - 1]) {
+        screenInfo.pop()
+        addSimbol(simb)
+    }
+    
 }
 
 function process(element) {
     switch (element) {
         case "AC":
-            numbers = []
-            number = []
+            screenInfo = []
             SCREEN.innerHTML = 0
             break;
         case "Del":
-            number.pop()
-            number.length != 0 ? printNumbers(element) : SCREEN.innerHTML = 0;
+            
+            screenInfo.pop()
+        
+            screenInfo.length != 0 ? printNumbers(element) : SCREEN.innerHTML = 0;
             break;
 
         case "/":
@@ -53,4 +66,3 @@ BUTTON.forEach(button => {
         process(election)
     })
 });
-
