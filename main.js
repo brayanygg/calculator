@@ -9,6 +9,8 @@ function printNumbers(digit) {
     let show = ""
     if (Number(digit) || digit === "0") {
         screenInfo.push(digit)
+    } else if (digit === "." && digit != screenInfo[screenInfo.length - 1]) {
+        screenInfo.push(digit)
     }
         
     for (const key in screenInfo) {
@@ -18,13 +20,13 @@ function printNumbers(digit) {
     SCREEN.innerHTML = show
 }
 function addSimbol(simb) {
-    if(Number(screenInfo[screenInfo.length - 1])) {
+    if(Number(screenInfo[screenInfo.length - 1]) || screenInfo[screenInfo.length - 1] === "0") {
         let showSimbol = ""
 
         screenInfo.push(simb)
 
-        for (const key in screenInfo) {
-            showSimbol += screenInfo[key]
+        for (const i of screenInfo) {
+            showSimbol += i
         }
     
         SCREEN.innerHTML = showSimbol
@@ -32,7 +34,19 @@ function addSimbol(simb) {
         screenInfo.pop()
         addSimbol(simb)
     }
-    
+}
+
+function result() {
+
+    if(!Number(screenInfo[screenInfo.length - 1]) || !screenInfo[screenInfo.length - 1] === "0" ) { 
+        screenInfo.pop() 
+    }  
+
+    let operation = "";
+    for (const i of screenInfo) {
+        operation += i
+    }
+    SCREEN.innerHTML = eval(operation).toFixed(2)
 }
 
 function process(element) {
@@ -44,9 +58,12 @@ function process(element) {
         case "Del":
             
             screenInfo.pop()
-        
             screenInfo.length != 0 ? printNumbers(element) : SCREEN.innerHTML = 0;
             break;
+
+        case "=":
+            result()
+            break
 
         case "/":
             case "*":
