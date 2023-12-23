@@ -9,33 +9,48 @@
 <body>
     <main class="calculator">
         <section class="calculator-screen">
-            <p>0</p>
+            0
         </section>
 
-        <section class="calculator-inputs">
-            <button>AC</button>
-            <button>Del</button>
-            <button>%</button>
-            <button>/</button>
-            <button>7</button>
-            <button>8</button>
-            <button>9</button>
-            <button>*</button>
-            <button>4</button>
-            <button>5</button>
-            <button>6</button>
-            <button>-</button>
-            <button>1</button>
-            <button>2</button>
-            <button>3</button>
-            <button>+</button>
+        <section class="calculator-buttons">
+            
+            <div class="calculator-button-row">
+                <button class="calculator-button especial">AC</button>
+                <button class="calculator-button delete especial">&larr;</button>
+                <button class="calculator-button">&divide;</button>
+            </div>
+
+            <div class="calculator-button-row">
+                <button class="calculator-button">7</button>
+                <button class="calculator-button">8</button>
+                <button class="calculator-button">9</button>
+                <button class="calculator-button">&times;</button>
+            </div>
+
+            <div class="calculator-button-row">
+                <button class="calculator-button">4</button>
+                <button class="calculator-button">5</button>
+                <button class="calculator-button">6</button>
+                <button class="calculator-button">&minus;</button>
+            </div>
+            
+            <div class="calculator-button-row">
+                <button class="calculator-button">1</button>
+                <button class="calculator-button">2</button>
+                <button class="calculator-button">3</button>
+                <button class="calculator-button">&plus;</button>
+            </div>
+            
+            <div class="calculator-button-row">
+                <button class="calculator-button zero">0</button>
+                <button class="calculator-button">.</button>
+                <button class="calculator-button especial">&equals;</button>
+            </div>
+
         </section>
-        <section class="calculator-end">
-            <button class="zero">0</button>
-            <button>.</button>
-            <button>=</button>
-        </section>
+
     </main>
+
     <script src="main.js"></script>
 </body>
 </html>
