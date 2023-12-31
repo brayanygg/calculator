@@ -39,11 +39,23 @@ function handleSymbols (symbol) {
 
                 if(screenBuffer.length === 1) {
 
+                    numberConformation = numberConformation.slice(0,numberConformation.length - 1)
+                    numbers = []
                     screenBuffer = ""
 
                 }else{
-                    
-                    screenBuffer = screenBuffer.slice(0,screenBuffer.length -1)
+
+                    if (isNaN(screenBuffer.slice(-1))) {
+                        symbols.pop()
+                    }else {
+                        if(numberConformation.length === 0) {
+
+                            numberConformation = numbers.pop()
+                        }
+                        numberConformation = numberConformation.slice(0,numberConformation.length - 1)
+                    }
+
+                    screenBuffer = screenBuffer.slice(0,screenBuffer.length - 1)
                 }
 
                 refreshScreen()
@@ -75,6 +87,8 @@ function handleMathSymbols(symbol) {
     if(screenBuffer.length === 0) {
         return 0
     }
+
+
     
     symbols.push(symbol)
     screenBuffer += symbol
