@@ -27,26 +27,26 @@ function handleSymbols (symbol) {
             
             symbols = []
             numbers = []
+            numberConformation = ""
+
             screenBuffer = ""
-            screen.innerText = "0"
+            refreshScreen()
             
             break;
         case "←":
             
             if (screenBuffer.length != 0) {
-                if(isNaN(lastValue)) {
+
+                if(screenBuffer.length === 1) {
+
+                    screenBuffer = ""
+
+                }else{
                     
-                    symbols.pop()
-                    lastValue = numbers[numbers.length-1]
-                }else {
-
-                    numbers.pop()
-                    lastValue = symbols[symbols.length-1]
+                    screenBuffer = screenBuffer.slice(0,screenBuffer.length -1)
                 }
-                screenBuffer = screenBuffer.slice(0, screenBuffer.length-1)
-                screen.innerText = screenBuffer
 
-  
+                refreshScreen()
             }
 
             break;
@@ -78,7 +78,7 @@ function handleMathSymbols(symbol) {
     
     symbols.push(symbol)
     screenBuffer += symbol
-    screen.innerText = screenBuffer
+    refreshScreen()
     lastValue = symbol
     console.log(`symbols: ${symbols}`);
 
@@ -93,10 +93,20 @@ function handleNumbers(number) {
     }
 
     numberConformation += number
-
     screenBuffer += number
-    screen.innerText = screenBuffer
+
+    refreshScreen()
     lastValue = number
+    
+}
+
+function refreshScreen() {
+
+    if(screenBuffer === "") {
+        screen.innerText = "0"
+    }else{
+        screen.innerText = screenBuffer
+    }
     
 }
 
