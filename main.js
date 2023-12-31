@@ -7,7 +7,6 @@ let symbols = [];
 let numbers = [];
 let numberConformation = ""
 let screenBuffer = ""
-let lastValue = ""
 
 function process(value) {
 
@@ -88,19 +87,27 @@ function handleMathSymbols(symbol) {
         return 0
     }
 
-
+    let lastValue = screenBuffer[screenBuffer.length-1]
     
+    if(isNaN(lastValue)) {
+        
+        screenBuffer = screenBuffer.slice(0,screenBuffer.length - 1)
+        symbols.pop()
+    }
+
     symbols.push(symbol)
     screenBuffer += symbol
     refreshScreen()
-    lastValue = symbol
     console.log(`symbols: ${symbols}`);
 
 }
 
 function handleNumbers(number) {
 
-    if(isNaN(lastValue)) {
+    let lastValue = screenBuffer[screenBuffer.length-1]
+
+    if(isNaN(lastValue) && numberConformation.length > 0) {
+
         numbers.push(numberConformation)
         numberConformation = ""
         console.log(`numbers: ${numbers}`);
@@ -110,7 +117,6 @@ function handleNumbers(number) {
     screenBuffer += number
 
     refreshScreen()
-    lastValue = number
     
 }
 
