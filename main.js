@@ -7,6 +7,26 @@ let symbols = [];
 let numbers = [];
 let numberConformation = ""
 let screenBuffer = ""
+let dot = false
+
+function clear() {
+    symbols = []
+    numbers = []
+    numberConformation = ""
+    screenBuffer = ""
+    dot = false
+
+}
+
+function refreshScreen() {
+
+    if(screenBuffer === "") {
+        screen.innerText = "0"
+    }else{
+        screen.innerText = screenBuffer
+    }
+    
+}
 
 function process(value) {
 
@@ -24,11 +44,7 @@ function handleSymbols (symbol) {
     switch(symbol) {
         case "AC":
             
-            symbols = []
-            numbers = []
-            numberConformation = ""
-
-            screenBuffer = ""
+            clear()
             refreshScreen()
             
             break;
@@ -38,19 +54,25 @@ function handleSymbols (symbol) {
 
                 if(screenBuffer.length === 1) {
 
-                    numberConformation = numberConformation.slice(0,numberConformation.length - 1)
-                    numbers = []
-                    screenBuffer = ""
+                    clear()
 
                 }else{
 
-                    if (isNaN(screenBuffer.slice(-1))) {
+                    let lastSymbol = screenBuffer.slice(-1)
+
+                    if (isNaN(lastSymbol) && lastSymbol != ".") {
+
                         symbols.pop()
                     }else {
                         if(numberConformation.length === 0) {
 
                             numberConformation = numbers.pop()
                         }
+
+                        if(lastSymbol == ".") {
+                            dot = false
+                        }
+
                         numberConformation = numberConformation.slice(0,numberConformation.length - 1)
                     }
 
@@ -62,7 +84,13 @@ function handleSymbols (symbol) {
 
             break;
         case ".":
+            if (!isNaN(screenBuffer[screenBuffer.length-1]) && !dot) {
+                screenBuffer += symbol
+                numberConformation += symbol
+                dot = true
+            }
             
+            refreshScreen()
             break;
 
         case "×":
@@ -89,10 +117,12 @@ function handleMathSymbols(symbol) {
 
     let lastValue = screenBuffer[screenBuffer.length-1]
     
-    if(isNaN(lastValue)) {
+    if(isNaN(lastValue) && lastValue != ".") {
         
         screenBuffer = screenBuffer.slice(0,screenBuffer.length - 1)
         symbols.pop()
+    }else if(lastValue === ".") {
+        screenBuffer = screenBuffer.slice(0,screenBuffer.length - 1)
     }
 
     symbols.push(symbol)
@@ -106,10 +136,16 @@ function handleNumbers(number) {
 
     let lastValue = screenBuffer[screenBuffer.length-1]
 
-    if(isNaN(lastValue) && numberConformation.length > 0) {
+    if(isNaN(lastValue) && numberConformation.length > 0 && lastValue != ".") {
+
+        if(numberConformation[numberConformation.length-1] === ".") {
+
+            numberConformation = numberConformation.slice(0,numberConformation.length - 1)
+        }
 
         numbers.push(numberConformation)
         numberConformation = ""
+        dot = false
         console.log(`numbers: ${numbers}`);
     }
 
@@ -117,16 +153,6 @@ function handleNumbers(number) {
     screenBuffer += number
 
     refreshScreen()
-    
-}
-
-function refreshScreen() {
-
-    if(screenBuffer === "") {
-        screen.innerText = "0"
-    }else{
-        screen.innerText = screenBuffer
-    }
     
 }
 
