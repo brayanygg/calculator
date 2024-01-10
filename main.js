@@ -8,6 +8,7 @@ let numbers = [];
 let numberConformation = ""
 let screenBuffer = ""
 let dot = false
+let priorityOperation = false
 
 function clear() {
     symbols = []
@@ -38,6 +39,65 @@ function process(value) {
 
        handleNumbers(value)
     }
+}
+
+function resultOperation() {
+
+    console.log(`Numbers: ${numbers}, Symbols: ${symbols}`)
+    let result = 0
+
+    if(priorityOperation) {
+
+        console.log("multi");
+        for(let i = 0; i < symbols.length; i++) {
+            if(symbols[i] === "×") {
+                
+                result = (Number(numbers[i]) * Number(numbers[i + 1]))
+                numbers.splice(i,2,result.toFixed(2)) 
+                symbols.splice(i,1)
+                i--
+
+            }else if(symbols[i] === "÷") {
+
+                result = (Number(numbers[i]) / Number(numbers[i + 1]))
+                numbers.splice(i,2, result.toFixed(2))
+                symbols.splice(i,1)
+                i--
+            }
+        }
+        priorityOperation = false
+        resultOperation()
+        
+    }else if(symbols.length >= 1 ){
+        console.log("sum");
+
+        for(let i = 0; i < symbols.length; i++){
+
+            
+            if(symbols[i] === "+"){
+
+                result = (Number(numbers[i]) + Number(numbers[i + 1]))
+                numbers.splice(i,2,result.toFixed(2)) 
+                symbols.splice(i,1)
+                i--
+            }else if(symbols[i] === "−"){
+                
+                result = (Number(numbers[i]) - Number(numbers[i + 1]))
+                numbers.splice(i,2, result.toFixed(2))
+                symbols.splice(i,1)
+                i--
+            }
+        }
+    }
+
+    if(numbers.length === 1){
+
+        screenBuffer = String(numbers[0])
+    }else{
+        throw new Error(`system of operations has failed`)
+    }
+
+    refreshScreen()
 }
 
 function handleSymbols (symbol) {
@@ -102,6 +162,12 @@ function handleSymbols (symbol) {
 
         case "=" :
 
+        if(numberConformation.length > 0) {
+
+            numbers.push(numberConformation)
+        }
+            resultOperation()
+
         break;
         
         default:
@@ -124,11 +190,14 @@ function handleMathSymbols(symbol) {
     }else if(lastValue === ".") {
         screenBuffer = screenBuffer.slice(0,screenBuffer.length - 1)
     }
+    
+    if(symbol === "÷" || symbol === "×") {
+        priorityOperation = true
+    }
 
     symbols.push(symbol)
     screenBuffer += symbol
     refreshScreen()
-    console.log(`symbols: ${symbols}`);
 
 }
 
@@ -146,7 +215,6 @@ function handleNumbers(number) {
         numbers.push(numberConformation)
         numberConformation = ""
         dot = false
-        console.log(`numbers: ${numbers}`);
     }
 
     numberConformation += number
